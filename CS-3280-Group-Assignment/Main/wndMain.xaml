@@ -8,13 +8,13 @@
         Title="wndMain" Height="450" Width="800">
     <Grid>
 
-        <Menu HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="168">
-            <MenuItem Header="Search Invoice" Height="26" Width="92"></MenuItem>
+        <Menu Name="mainMenu" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="168">
+            <MenuItem Name="search" Header="Search Invoice" Height="26" Width="92"></MenuItem>
             <MenuItem Header="Items Table" Height="26" Width="76"></MenuItem>
         </Menu>
         <DataGrid HorizontalAlignment="Left" Height="198" Margin="35,107,0,0" VerticalAlignment="Top" Width="253"/>
         <Button Content="Make Edits" HorizontalAlignment="Left" Margin="334,350,0,0" VerticalAlignment="Top" Width="96"/>
-        <Button Content="Delete Selected Invoice" HorizontalAlignment="Left" Margin="461,350,0,0" VerticalAlignment="Top" Width="96"/>
+        <Button Content="Delete Selected Invoice" HorizontalAlignment="Left" Margin="461,350,0,0" VerticalAlignment="Top" Width="137"/>
         <Button Content="Add New Invoice" HorizontalAlignment="Left" Margin="208,350,0,0" VerticalAlignment="Top" Width="96"/>
         <DataGrid HorizontalAlignment="Left" Height="198" Margin="481,106,0,0" VerticalAlignment="Top" Width="252"/>
         <Label Content="Invoices" HorizontalAlignment="Left" Margin="35,81,0,0" VerticalAlignment="Top"/>

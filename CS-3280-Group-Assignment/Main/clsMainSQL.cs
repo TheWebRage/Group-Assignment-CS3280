@@ -8,5 +8,8 @@ namespace CS_3280_Group_Assignment.Main
 {
     class clsMainSQL
     {
+        // Get all items
+        // Get all invoices
+        // Get all items for one invoice
     }
 }
