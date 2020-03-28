@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:CS_3280_Group_Assignment.Items"
         xmlns:CS_3280_Group_Assignment="clr-namespace:CS_3280_Group_Assignment" x:Class="CS_3280_Group_Assignment.Items.wndItems"
         mc:Ignorable="d"
-        Title="Items" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Items" Height="450" Width="800" Loaded="Window_Loaded"
+        Closing="windowClosing">
     <Window.Resources>
         <CS_3280_Group_Assignment:InvoiceDatabaseDataSet x:Key="invoiceDatabaseDataSet"/>
         <CollectionViewSource x:Key="itemsViewSource" Source="{Binding Items, Source={StaticResource invoiceDatabaseDataSet}}"/>

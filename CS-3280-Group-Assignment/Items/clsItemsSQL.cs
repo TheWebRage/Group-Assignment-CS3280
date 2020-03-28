@@ -51,7 +51,7 @@ namespace CS_3280_Group_Assignment.Items
         public static string EditItem(int itemID, string itemName, double cost) {
             try {
                 return "UPDATE Items SET ItemName = '" + itemName + "', ItemCost = " + cost + " WHERE" +
-                    "ItemmID = " + itemID;
+                    "ItemID = " + itemID;
             } catch (Exception ex) {
                 throw new Exception("Unable to edit item." + ex.ToString()); 
             }
