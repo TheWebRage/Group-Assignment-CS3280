@@ -23,5 +23,31 @@ namespace CS_3280_Group_Assignment.Items
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            CS_3280_Group_Assignment.InvoiceDatabaseDataSet invoiceDatabaseDataSet = ((CS_3280_Group_Assignment.InvoiceDatabaseDataSet)(this.FindResource("invoiceDatabaseDataSet")));
+            // Load data into the table Items. You can modify this code as needed.
+            CS_3280_Group_Assignment.InvoiceDatabaseDataSetTableAdapters.ItemsTableAdapter invoiceDatabaseDataSetItemsTableAdapter = new CS_3280_Group_Assignment.InvoiceDatabaseDataSetTableAdapters.ItemsTableAdapter();
+            invoiceDatabaseDataSetItemsTableAdapter.Fill(invoiceDatabaseDataSet.Items);
+            System.Windows.Data.CollectionViewSource itemsViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("itemsViewSource")));
+            itemsViewSource.View.MoveCurrentToFirst();
+        }
+
+        private void btnAddItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnEditItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
