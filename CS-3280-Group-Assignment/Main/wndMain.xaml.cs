@@ -70,7 +70,7 @@ namespace CS_3280_Group_Assignment
         {
             try
             {
-                wndSearch searchWindow = new wndSearch();
+                wndSearch searchWindow = new wndSearch(this);
                 searchWindow.Show();
                 this.Hide();
             }

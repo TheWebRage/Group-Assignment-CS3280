@@ -8,9 +8,6 @@ namespace CS_3280_Group_Assignment.Main
 {
     class clsMainLogic
     {
-        // Switch to search page
-        // Switch to edit page
-
         /// <summary>
         /// This will update the DataGrid that shows all the invoices
         /// </summary>
