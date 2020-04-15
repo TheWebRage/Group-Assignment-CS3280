@@ -20,16 +20,14 @@ namespace CS_3280_Group_Assignment.Search
     /// </summary>
     public partial class wndSearch : Window
     {
-        private wndMain _mainWindow;
 
         /// <summary>
         /// Fills groupboxes and datagrid with all invoices
         /// </summary>
-        /// <param name="mainWindow"></param>
-        public wndSearch(wndMain mainWindow)
+        public wndSearch()
         {
-            InitializeComponent(); 
-            _mainWindow = mainWindow;
+            InitializeComponent();
+
             //Call methods to fill groupboxes and datagrid
         }
 
@@ -42,7 +40,6 @@ namespace CS_3280_Group_Assignment.Search
         {
             try
             {
-                _mainWindow.Show();
                 this.Close();
             }
             catch (Exception exception)
@@ -61,7 +58,6 @@ namespace CS_3280_Group_Assignment.Search
         {
             try
             {
-                _mainWindow.Show();
                 this.Close();
             }
             catch (Exception exception)
@@ -109,24 +105,6 @@ namespace CS_3280_Group_Assignment.Search
         private void totalChargeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        /// <summary>
-        /// When the window closes, open the main window again
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WndSearch_OnClosing(object sender, CancelEventArgs e)
-        {
-            try
-            {
-                _mainWindow.Show();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show("Unable to close Search window. " + exception.ToString(), "Error - Close Search Window",
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
         }
     }
 }

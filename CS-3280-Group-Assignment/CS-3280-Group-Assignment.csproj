@@ -55,11 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Invoice.cs" />
     <Compile Include="InvoiceDatabaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InvoiceDatabaseDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceItem.cs" />
     <Compile Include="Items\clsItemsLogic.cs" />
     <Compile Include="Items\clsItemsSQL.cs" />
     <Compile Include="Items\wndItems.xaml.cs">
@@ -112,6 +114,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="InvoiceDatabaseDataSet.xsc">
       <DependentUpon>InvoiceDatabaseDataSet.xsd</DependentUpon>
     </None>

@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace CS_3280_Group_Assignment.Main
 {
     /// <summary>
     /// This class is to hold the sql statements needed for getting data from the database.
     /// </summary>
-    class clsMainSQL
+    public class clsMainSQL
     {
         /// <summary>
-        /// This is the SQL statement to get all items on an invoice. It needs to jump across the InvoiceItems table.
+        /// This is the connection to the database used for keeping track of the information
         /// </summary>
-        /// <param name="invoiceNum">The invoice to get the items for</param>
-        /// <returns>SQL string for invoice items</returns>
-        public static string GetInvoiceItems(string invoiceNum)
+        private clsDataAccess db;
+
+        /// <summary>
+        /// This is the constructor for the sql class. This handles the actions to the database.
+        /// </summary>
+        public clsMainSQL()
         {
             try
             {
-                return "SELECT Items.item FROM Invoices " +
-                       "JOIN InvoiceItems ON InvoiceItems.InvoiceID = Invoice.InvoiceID" +
-                       "JOIN Items ON Items.ItemID = InvoiceItems.ItemID" +
-                       "WHERE InvoiceID = " + invoiceNum;
+                db = new clsDataAccess();
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to get invoice items." + ex.ToString());
+                throw new Exception("Unable to create." + ex.ToString());
             }
         }
 
@@ -35,11 +37,29 @@ namespace CS_3280_Group_Assignment.Main
         /// This is the SQL statement to get all items.
         /// </summary>
         /// <returns>SQL string for all items</returns>
-        public static string GetAllItems()
+        public List<InvoiceItem> GetAllItems()
         {
             try
             {
-                return "SELECT ItemName FROM Items";
+                string sSQL = "SELECT * FROM Items";
+                int iRet = 0;
+                DataSet ds = new DataSet();
+
+                InvoiceItem invoiceItem;
+                List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+
+                for (int i = 0; i < iRet; i++)
+                {
+                    invoiceItem = new InvoiceItem();
+                    invoiceItem.invoiceItemId = ds.Tables[0].Rows[i][0].ToString();
+                    invoiceItem.invoiceItemName = ds.Tables[0].Rows[i][1].ToString();
+                    invoiceItem.invoiceItemCost = ds.Tables[0].Rows[i][2].ToString();
+
+                    invoiceItems.Add(invoiceItem);
+                }
+                return invoiceItems;
             }
             catch (Exception ex)
             {
@@ -51,11 +71,65 @@ namespace CS_3280_Group_Assignment.Main
         /// This is the SQL statement to get all invoices
         /// </summary>
         /// <returns>SQL string for all invoices</returns>
-        public static string GetAllInvoices()
+        public List<Invoice> GetAllInvoices()
         {
             try
             {
-                return "SELECT * FROM Invoices";
+                string sSQL = "SELECT * FROM Invoices";
+                int iRet = 0;
+                DataSet ds = new DataSet();
+
+                Invoice invoice;
+                List<Invoice> invoices = new List<Invoice>();
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+
+                for (int i = 0; i < iRet; i++)
+                {
+                    invoice = new Invoice();
+                    invoice.invoiceId = ds.Tables[0].Rows[i][0].ToString();
+                    invoice.invoiceDate = ds.Tables[0].Rows[i][1].ToString();
+                    invoice.invoiceTotal = ds.Tables[0].Rows[i][2].ToString();
+
+                    invoices.Add(invoice);
+                }
+                return invoices;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to get all invoices." + ex.ToString());
+            }
+        }
+
+        /// <summary>
+        /// This is the SQL statement to get all invoices
+        /// </summary>
+        /// <returns>SQL string for all invoices</returns>
+        public List<InvoiceItem> GetAllInvoiceItems(string invoiceId)
+        {
+            try
+            {
+                string sSQL = "SELECT Items.item FROM Invoices " +
+                              "JOIN InvoiceItems ON InvoiceItems.InvoiceID = Invoice.InvoiceID" +
+                              "JOIN Items ON Items.ItemID = InvoiceItems.ItemID" +
+                              "WHERE InvoiceID = " + invoiceId;
+                int iRet = 0;
+                DataSet ds = new DataSet();
+
+                List<InvoiceItem> invoiceItems = new List<InvoiceItem>();
+
+                ds = db.ExecuteSQLStatement(sSQL, ref iRet);
+
+                for (int i = 0; i < iRet; i++)
+                {
+                    InvoiceItem invoiceItem = new InvoiceItem();
+                    invoiceItem.invoiceItemId = ds.Tables[0].Rows[i][0].ToString();
+                    invoiceItem.invoiceItemName = ds.Tables[0].Rows[i][1].ToString();
+                    invoiceItem.invoiceItemCost = ds.Tables[0].Rows[i][2].ToString();
+
+                    invoiceItems.Add(invoiceItem);
+                }
+                return invoiceItems;
             }
             catch (Exception ex)
             {
@@ -66,13 +140,14 @@ namespace CS_3280_Group_Assignment.Main
         /// <summary>
         /// This adds a new invoice into the database. It will not have any items on it when first created.
         /// </summary>
-        /// <param name="invoiceNum">The invoice number to create it for</param>
+        /// <param name="invoiceDateTime">The date of the invoice (Defaults to today)</param>
         /// <returns>SQL string for adding an invoice</returns>
-        public static string AddInvoice(string invoiceNum)
+        public void AddInvoice(string invoiceDateTime)
         {
             try
             {
-                return "INSERT INTO Invoices(invoiceNum) VALUES(" + invoiceNum + ")";
+                string sSQL = "INSERT INTO Invoices(InvoiceDate) VALUES(" + invoiceDateTime + ");";
+                db.ExecuteNonQuery(sSQL);
             }
             catch (Exception ex)
             {
@@ -85,11 +160,12 @@ namespace CS_3280_Group_Assignment.Main
         /// </summary>
         /// <param name="invoiceId">Invoice to delete</param>
         /// <returns>SQL string to delete an invoice</returns>
-        public static string DeleteInvoice(int invoiceId)
+        public void DeleteInvoice(string invoiceId)
         {
             try
             {
-                return "DELETE FROM Invoice WHERE InvoiceID = " + invoiceId;
+                string sSQL = "DELETE FROM Invoice WHERE InvoiceID = " + invoiceId + ";";
+                db.ExecuteNonQuery(sSQL);
             }
             catch (Exception ex)
             {
@@ -104,12 +180,13 @@ namespace CS_3280_Group_Assignment.Main
         /// <param name="invoiceDate">Date to change to</param>
         /// <param name="invoiceTotal">Total to change to</param>
         /// <returns>SQL string to edit an invoice</returns>
-        public static string EditInvoice(string invoiceId, string invoiceDate, string invoiceTotal)
+        public void EditInvoice(string invoiceId, string invoiceDate, string invoiceTotal)
         {
             try
             {
-                return "UPDATE Invoices SET InvoiceDate = " + invoiceDate + ", InvoiceTotal = " 
+                string sSQL = "UPDATE Invoices SET InvoiceDate = " + invoiceDate + ", InvoiceTotal = " 
                        + invoiceTotal + " WHERE InvoiceID = " + invoiceId;
+                db.ExecuteNonQuery(sSQL);
             }
             catch (Exception ex)
             {
@@ -121,13 +198,14 @@ namespace CS_3280_Group_Assignment.Main
         /// Add an item to an invoice
         /// </summary>
         /// <param name="invoiceId">Invoice to add item to</param>
-        /// <param name="itemId">Item to add to invoice</param>
+        /// <param name="itemId">InvoiceItem to add to invoice</param>
         /// <returns>SQL string to add an item to an invoice</returns>
-        public static string AddItem(string invoiceId, string itemId)
+        public void AddItem(string invoiceId, string itemId)
         {
             try
             {
-                return "INSERT INTO InvoiceItems(InvoiceID, ItemID) VALUES(" + invoiceId + ", " + itemId + ")";
+                string sSQL = "INSERT INTO InvoiceItems(InvoiceID, ItemID) VALUES(" + invoiceId + ", " + itemId + ")";
+                db.ExecuteNonQuery(sSQL);
             }
             catch (Exception ex)
             {
@@ -139,13 +217,14 @@ namespace CS_3280_Group_Assignment.Main
         /// This removes an item from an invoice
         /// </summary>
         /// <param name="invoiceId">Invoice to remove the item from</param>
-        /// <param name="itemId">Item to remove from the invoice</param>
+        /// <param name="itemId">InvoiceItem to remove from the invoice</param>
         /// <returns>SQL string that removes the item from the invoice</returns>
-        public static string RemoveItem(string invoiceId, string itemId)
+        public void RemoveItem(string invoiceId, string itemId)
         {
             try
             {
-                return "DELETE FROM InvoiceItems WHERE InvoiceId = " + invoiceId + " AND ItemId = " + itemId;
+                string sSQL = "DELETE FROM InvoiceItems WHERE InvoiceId = " + invoiceId + " AND ItemId = " + itemId;
+                db.ExecuteNonQuery(sSQL);
             }
             catch (Exception ex)
             {

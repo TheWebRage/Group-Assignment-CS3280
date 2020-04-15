@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CS_3280_Group_Assignment.Items;
+using CS_3280_Group_Assignment.Main;
 using CS_3280_Group_Assignment.Search;
 
 namespace CS_3280_Group_Assignment
@@ -23,12 +24,74 @@ namespace CS_3280_Group_Assignment
     public partial class wndMain : Window
     {
         /// <summary>
+        /// This is the logic class used for performing the operations on the back end
+        /// </summary>
+        private readonly clsMainLogic _logic;
+
+        /// <summary>
         /// This is the main window that will allow the user to create new invoices,
         ///  add items, remove items, delete invoices, and navigate to other windows.
         /// </summary>
         public wndMain()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+
+                _logic = new clsMainLogic();
+                invoicesDataGrid.ItemsSource = _logic.invoices;
+                invoiceItemsDataGrid.ItemsSource = _logic.invoiceItems;
+                itemsComboBox.ItemsSource = _logic.GetAllItems();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to create main window. " + ex.ToString(), "Error - wndMain constructor",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+        }
+
+        /// <summary>
+        /// This returns the selected invoice id
+        /// </summary>
+        /// <returns>The current invoice id as a string</returns>
+        public string GetCurrentSelectedInvoiceId()
+        {
+            try
+            {
+                foreach (Invoice invoice in _logic.invoices)
+                    if (invoice.ToString() == invoicesDataGrid.SelectedItem.ToString())
+                        return invoice.invoiceId.ToString();
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to get current selected invoice. " + ex.ToString(), "Error - GetCurrentSelectedInvoiceId",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// This returns the current selected item id
+        /// </summary>
+        /// <returns>The current item id as a string</returns>
+        public string GetCurrentSelectedItemId()
+        {
+            try
+            {
+                foreach (InvoiceItem invoiceItem in _logic.invoiceItems)
+                    if (invoiceItem.ToString() == invoiceItemsDataGrid.SelectedItem.ToString())
+                        return invoiceItem.invoiceItemId.ToString();
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to get current selected item. " + ex.ToString(), "Error - GetCurrentSelectedItemId",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return "";
+            }
         }
 
         /// <summary>
@@ -36,7 +99,15 @@ namespace CS_3280_Group_Assignment
         /// </summary>
         private void addItemButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                _logic.AddItemToInvoice(GetCurrentSelectedInvoiceId(), GetCurrentSelectedItemId());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to add item. " + ex.ToString(), "Error - addItemButton_Click",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         /// <summary>
@@ -44,7 +115,16 @@ namespace CS_3280_Group_Assignment
         /// </summary>
         private void addInvoice_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                _logic.AddNewInvoice();
+                invoicesDataGrid.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to add invoice. " + ex.ToString(), "Error - addInvoice_Click",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         /// <summary>
@@ -52,7 +132,15 @@ namespace CS_3280_Group_Assignment
         /// </summary>
         private void madeEditsButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to make edits. " + ex.ToString(), "Error - madeEditsButton_Click",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         /// <summary>
@@ -60,7 +148,16 @@ namespace CS_3280_Group_Assignment
         /// </summary>
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                _logic.DeleteInvoice(invoicesDataGrid.SelectedItem.ToString());
+                invoicesDataGrid.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to delete invoice. " + ex.ToString(), "Error - deleteButton_Click",
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         /// <summary>
@@ -70,31 +167,33 @@ namespace CS_3280_Group_Assignment
         {
             try
             {
-                wndSearch searchWindow = new wndSearch(this);
-                searchWindow.Show();
+                wndSearch searchWindow = new wndSearch();
                 this.Hide();
+                searchWindow.ShowDialog();
+                this.Show();
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Unable to open Search window. " + exception.ToString(), "Error - Open Search Window",
+                MessageBox.Show("Unable to open Search window. " + ex.ToString(), "Error - Open Search Window",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 
         /// <summary>
-        /// THis will open the items window and hide this window
+        /// This will open the items window and hide this window
         /// </summary>
         private void itemsLink_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                wndItems itemsWindow = new wndItems(this);
-                itemsWindow.Show();
+                wndItems itemsWindow = new wndItems();
                 this.Hide();
+                itemsWindow.ShowDialog();
+                this.Show();
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Unable to open Items window. " + exception.ToString(), "Error - Open Items Window",
+                MessageBox.Show("Unable to open Items window. " + ex.ToString(), "Error - Open Items Window",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }

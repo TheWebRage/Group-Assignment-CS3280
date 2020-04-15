@@ -6,23 +6,45 @@
         xmlns:local="clr-namespace:CS_3280_Group_Assignment"
         mc:Ignorable="d"
         Title="wndMain" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <local:InvoiceDatabaseDataSet x:Key="invoiceDatabaseDataSet"/>
+        <CollectionViewSource x:Key="invoicesViewSource" Source="{Binding Invoices, Source={StaticResource invoiceDatabaseDataSet}}"/>
+        <CollectionViewSource x:Key="invoiceItemsViewSource" Source="{Binding InvoiceItems, Source={StaticResource invoiceDatabaseDataSet}}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource invoicesViewSource}">
 
         <Menu Name="mainMenu" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="94">
             <MenuItem Name="searchLink" Header="Search" Height="26" Width="51" Click="searchLink_Click"></MenuItem>
             <MenuItem Name="itemsLink" Header="Items" Height="26" Width="43" Click="itemsLink_Click"></MenuItem>
         </Menu>
-        <DataGrid Name="invoicesDataTable" HorizontalAlignment="Left" Height="198" Margin="35,107,0,0" VerticalAlignment="Top" Width="253"/>
         <Button Name="madeEditsButton" Content="Make Edits" HorizontalAlignment="Left" Margin="334,350,0,0" VerticalAlignment="Top" Width="96" Click="madeEditsButton_Click"/>
         <Button Name="deleteButton" Content="Delete Selected Invoice" HorizontalAlignment="Left" Margin="461,350,0,0" VerticalAlignment="Top" Width="137" Click="deleteButton_Click"/>
         <Button Name="addInvoice" Content="Add New Invoice" HorizontalAlignment="Left" Margin="208,350,0,0" VerticalAlignment="Top" Width="96" Click="addInvoice_Click"/>
-        <DataGrid Name="itemsDataGrid" HorizontalAlignment="Left" Height="198" Margin="481,106,0,0" VerticalAlignment="Top" Width="252"/>
         <Label Name="invoicesLabel" Content="Invoices" HorizontalAlignment="Left" Margin="35,81,0,0" VerticalAlignment="Top"/>
-        <Label Name="itemsDataLabel" Content="Items" HorizontalAlignment="Left" Margin="481,81,0,0" VerticalAlignment="Top"/>
+        <Label Name="itemsDataLabel" Content="Invoice Items" HorizontalAlignment="Left" Margin="499,81,0,0" VerticalAlignment="Top"/>
         <Label Name="itemsLabel" Content="Items: " HorizontalAlignment="Left" Margin="301,124,0,0" VerticalAlignment="Top"/>
         <ComboBox Name="itemsComboBox" HorizontalAlignment="Left" Margin="353,128,0,0" VerticalAlignment="Top" Width="120"/>
         <Button Name="addItemButton" Content="Add item" HorizontalAlignment="Left" Margin="344,222,0,0" VerticalAlignment="Top" Width="75" Click="addItemButton_Click"/>
         <Label Name="quantityLabel" Content="Quantity: " HorizontalAlignment="Left" Margin="293,177,0,0" VerticalAlignment="Top"/>
         <TextBox Name="quantityTextBox" HorizontalAlignment="Left" Height="23" Margin="353,181,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <DataGrid x:Name="invoicesDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="35,106,504,133" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="invoiceIDColumn" Binding="{Binding InvoiceID}" Header="Invoice ID" Width="SizeToHeader"/>
+                <DataGridTemplateColumn x:Name="invoiceDateColumn" Header="Invoice Date" Width="SizeToHeader">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding InvoiceDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn x:Name="invoiceTotalColumn" Binding="{Binding InvoiceTotal}" Header="Invoice Total" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="invoiceItemsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource invoiceItemsViewSource}}" Margin="499,106,67,137" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="invoiceIDColumn1" Binding="{Binding InvoiceID}" Header="Invoice ID" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="itemIDColumn" Binding="{Binding ItemID}" Header="InvoiceItem ID" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

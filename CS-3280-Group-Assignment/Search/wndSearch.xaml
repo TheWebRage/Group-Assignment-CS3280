@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS_3280_Group_Assignment.Search"
         mc:Ignorable="d"
-        Title="Search" Height="450" Width="800"
-        Closing="WndSearch_OnClosing">
+        Title="Search" Height="450" Width="800">
     <Grid>
         <ComboBox x:Name="invNumBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="131,24,0,0" SelectionChanged="invNumBox_SelectionChanged"/>
         <ComboBox x:Name="invDateBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="131,64,0,0" SelectionChanged="invDateBox_SelectionChanged"/>

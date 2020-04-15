@@ -70,3 +70,4 @@ C:\Users\einnu\source\repos\CS3280\CS-3280-Group-Assignment\Group-Assignment-CS3
 C:\Users\einnu\source\repos\CS3280\CS-3280-Group-Assignment\Group-Assignment-CS3280\CS-3280-Group-Assignment\obj\Debug\CS-3280-Group-Assignment.exe
 C:\Users\einnu\source\repos\CS3280\CS-3280-Group-Assignment\Group-Assignment-CS3280\CS-3280-Group-Assignment\obj\Debug\CS-3280-Group-Assignment.pdb
 C:\Users\einnu\source\repos\CS3280\CS-3280-Group-Assignment\Group-Assignment-CS3280\CS-3280-Group-Assignment\obj\Debug\CS-3280-Group-Assignment.csprojAssemblyReference.cache
+C:\Users\einnu\source\repos\CS3280\CS-3280-Group-Assignment\Group-Assignment-CS3280\CS-3280-Group-Assignment\bin\Debug\CS-3280-Group-Assignment.exe.config
