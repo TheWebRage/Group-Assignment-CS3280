@@ -38,9 +38,15 @@ namespace CS_3280_Group_Assignment
             {
                 InitializeComponent();
 
+                // TODO: get styles integrated
                 _logic = new clsMainLogic();
-                invoicesDataGrid.ItemsSource = _logic.invoices;
-                invoiceItemsDataGrid.ItemsSource = _logic.invoiceItems;
+
+                invoicesDataGrid.ItemsSource = _logic.InvoicesDataSet.Tables[0].DefaultView;
+                invoicesDataGrid.SelectedIndex = 0;
+
+                invoiceItemsDataGrid.ItemsSource = _logic.InvoiceItemsDataSet.Tables[0].DefaultView;
+                invoiceItemsDataGrid.SelectedIndex = 0;
+
                 itemsComboBox.ItemsSource = _logic.GetAllItems();
             }
             catch (Exception ex)
@@ -101,7 +107,7 @@ namespace CS_3280_Group_Assignment
         {
             try
             {
-                _logic.AddItemToInvoice(GetCurrentSelectedInvoiceId(), GetCurrentSelectedItemId());
+                _logic.AddItemToInvoice(GetCurrentSelectedInvoiceId(), itemsComboBox.SelectedItem.ToString());
             }
             catch (Exception ex)
             {
@@ -123,22 +129,6 @@ namespace CS_3280_Group_Assignment
             catch (Exception ex)
             {
                 MessageBox.Show("Unable to add invoice. " + ex.ToString(), "Error - addInvoice_Click",
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
-        }
-
-        /// <summary>
-        /// This will submit the edits made to invoices
-        /// </summary>
-        private void madeEditsButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Unable to make edits. " + ex.ToString(), "Error - madeEditsButton_Click",
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
@@ -169,6 +159,7 @@ namespace CS_3280_Group_Assignment
             {
                 wndSearch searchWindow = new wndSearch();
                 this.Hide();
+                // TODO: get value to become current selected invoice in invoiceDataGrid
                 searchWindow.ShowDialog();
                 this.Show();
             }

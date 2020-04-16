@@ -15,6 +15,7 @@ namespace CS_3280_Group_Assignment.Main
         /// </summary>
         private clsMainSQL _sqlOperations;
 
+
         /// <summary>
         /// This is the list of all invoices in the database
         /// </summary>
@@ -24,6 +25,16 @@ namespace CS_3280_Group_Assignment.Main
         /// This is the list of items in the currently selected invoice
         /// </summary>
         public List<InvoiceItem> invoiceItems;
+
+        /// <summary>
+        /// This is the DataSet used to load the invoices data grid
+        /// </summary>
+        public DataSet InvoicesDataSet;
+
+        /// <summary>
+        /// This is the DataSet used to load the invoice items data grid
+        /// </summary>
+        public DataSet InvoiceItemsDataSet;
 
         /// <summary>
         /// Constructor call for the main logic class for the invoices
@@ -49,7 +60,7 @@ namespace CS_3280_Group_Assignment.Main
         {
             try
             {
-                invoices = _sqlOperations.GetAllInvoices();
+                InvoicesDataSet = _sqlOperations.GetInvoices();
             }
             catch (Exception ex)
             {
@@ -64,7 +75,7 @@ namespace CS_3280_Group_Assignment.Main
         {
             try
             {
-                invoiceItems = _sqlOperations.GetAllInvoiceItems(invoiceId);
+                InvoiceItemsDataSet = _sqlOperations.GetAllInvoiceItems(invoiceId);
             }
             catch (Exception ex)
             {
@@ -73,47 +84,18 @@ namespace CS_3280_Group_Assignment.Main
         }
 
         /// <summary>
-        /// This will update the DataGrid that shows all the invoices
+        /// This will update the invoices and invoiceItems lists
         /// </summary>
-        public void UpdateInvoicesGrid()
+        public void UpdateInvoicesAndInvoiceItems(string invoiceId = "1")
         {
             try
             {
-
+                GetAllInvoices();
+                GetInvoiceItems(invoiceId);
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to update invoices grid." + ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// This will update the DataGrid that shows the items for the selected Invoice
-        /// </summary>
-        public void UpdateItemsGrid()
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to update items grid." + ex.ToString());
-            }
-        }
-
-        /// <summary>
-        /// This will update the items in the combobox. This will show all items possible.
-        /// </summary>
-        public void UpdateItemsComboBox()
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to update items combo box." + ex.ToString());
+                throw new Exception("Unable to update invoices and invoice items lists." + ex.ToString());
             }
         }
 
@@ -148,6 +130,21 @@ namespace CS_3280_Group_Assignment.Main
         }
 
         /// <summary>
+        /// This will add the list of invoices to the data member
+        /// </summary>
+        public void GetAllInvoices()
+        {
+            try
+            {
+                invoices = _sqlOperations.GetAllInvoices();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to add item to invoice." + ex.ToString());
+            }
+        }
+
+        /// <summary>
         /// This will delete the currently selected item from the invoice
         /// </summary>
         public void DeleteItemFromInvoice()
@@ -169,11 +166,8 @@ namespace CS_3280_Group_Assignment.Main
         {
             try
             { 
-                _sqlOperations.AddInvoice("0");
+                _sqlOperations.AddInvoice(DateTime.Now.ToString());
                 // TODO: update the selected invoice to the newly created one
-                UpdateInvoicesGrid();
-                UpdateItemsGrid();
-                UpdateItemsComboBox();
             }
             catch (Exception ex)
             {
