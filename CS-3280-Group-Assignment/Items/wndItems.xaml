@@ -6,23 +6,27 @@
         xmlns:local="clr-namespace:CS_3280_Group_Assignment.Items"
         xmlns:CS_3280_Group_Assignment="clr-namespace:CS_3280_Group_Assignment" x:Class="CS_3280_Group_Assignment.Items.wndItems"
         mc:Ignorable="d"
-        Title="InvoiceItems" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="InvoiceItems" Height="450" Width="800" >
     <Window.Resources>
         <CS_3280_Group_Assignment:InvoiceDatabaseDataSet x:Key="invoiceDatabaseDataSet"/>
         <CollectionViewSource x:Key="itemsViewSource" Source="{Binding Items, Source={StaticResource invoiceDatabaseDataSet}}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource itemsViewSource}">
 
-        <DataGrid x:Name="itemsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="115,34,116.333,135.667" RowDetailsVisibilityMode="VisibleWhenSelected">
+        <DataGrid x:Name="itemsDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="94,25,85.333,129.667" RowDetailsVisibilityMode="VisibleWhenSelected">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="itemIDColumn" Binding="{Binding ItemID}" Header="InvoiceItem ID" Width="100"/>
-                <DataGridTextColumn x:Name="itemNameColumn" Binding="{Binding ItemName}" Header="InvoiceItem Name" Width="300"/>
-                <DataGridTextColumn x:Name="itemCostColumn" Binding="{Binding ItemCost}" Header="InvoiceItem Cost" Width="150"/>
+                <DataGridTextColumn x:Name="itemIDColumn" Binding="{Binding ItemID}" Header="Item ID" Width="100"/>
+                <DataGridTextColumn x:Name="itemNameColumn" Binding="{Binding ItemName}" Header="Item Name" Width="300"/>
+                <DataGridTextColumn x:Name="itemCostColumn" Binding="{Binding ItemCost}" Header="Item Cost" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnAddItem" Content="Add InvoiceItem" HorizontalAlignment="Left" Margin="166,363,0,0" VerticalAlignment="Top" Width="75" Click="btnAddItem_Click"/>
-        <Button x:Name="btnEditItem" Content="Edit InvoiceItem" HorizontalAlignment="Left" Margin="352,363,0,0" VerticalAlignment="Top" Width="75" Click="btnEditItem_Click"/>
-        <Button x:Name="btnDeleteItem" Content="Delete InvoiceItem" HorizontalAlignment="Left" Margin="553,363,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteItem_Click"/>
+        <Button x:Name="btnAddItem" Content="Add Item" HorizontalAlignment="Left" Margin="197,372,0,0" VerticalAlignment="Top" Width="75" Click="btnAddItem_Click"/>
+        <Button x:Name="btnEditItem" Content="Edit Item" HorizontalAlignment="Left" Margin="352,372,0,0" VerticalAlignment="Top" Width="75" Click="btnEditItem_Click"/>
+        <Button x:Name="btnDeleteItem" Content="Delete Item" HorizontalAlignment="Left" Margin="514,372,0,0" VerticalAlignment="Top" Width="75" Click="btnDeleteItem_Click"/>
+        <TextBox x:Name="tbItemName" HorizontalAlignment="Left" Height="23" Margin="197,336,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="234"/>
+        <TextBox x:Name="tbItemCost" HorizontalAlignment="Left" Height="23" Margin="497,336,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
+        <Label x:Name="lblItemName" Content="Item Name:" HorizontalAlignment="Left" Margin="197,305,0,0" VerticalAlignment="Top" Width="230"/>
+        <Label x:Name="lblItemCost" Content="Item Cost:" HorizontalAlignment="Left" Margin="497,305,0,0" VerticalAlignment="Top" Width="92"/>
 
     </Grid>
 </Window>

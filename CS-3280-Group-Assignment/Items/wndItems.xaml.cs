@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Data;
 
 namespace CS_3280_Group_Assignment.Items
 {
@@ -20,21 +21,19 @@ namespace CS_3280_Group_Assignment.Items
     /// </summary>
     public partial class wndItems : Window
     {
+        clsItemsLogic itemsLogic;
 
         public wndItems()
         {
             InitializeComponent();
+            itemsLogic = new clsItemsLogic();
+            fillDataGrid();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
 
-            CS_3280_Group_Assignment.InvoiceDatabaseDataSet invoiceDatabaseDataSet = ((CS_3280_Group_Assignment.InvoiceDatabaseDataSet)(this.FindResource("invoiceDatabaseDataSet")));
-            // Load data into the table Items. You can modify this code as needed.
-            CS_3280_Group_Assignment.InvoiceDatabaseDataSetTableAdapters.ItemsTableAdapter invoiceDatabaseDataSetItemsTableAdapter = new CS_3280_Group_Assignment.InvoiceDatabaseDataSetTableAdapters.ItemsTableAdapter();
-            invoiceDatabaseDataSetItemsTableAdapter.Fill(invoiceDatabaseDataSet.Items);
-            System.Windows.Data.CollectionViewSource itemsViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("itemsViewSource")));
-            itemsViewSource.View.MoveCurrentToFirst();
+        private void fillDataGrid()
+        {
+            itemsDataGrid.ItemsSource = new DataView(itemsLogic.getAllItems().Tables[0]);
         }
 
         /// <summary>

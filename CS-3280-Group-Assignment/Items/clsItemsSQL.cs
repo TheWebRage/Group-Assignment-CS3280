@@ -9,6 +9,20 @@ namespace CS_3280_Group_Assignment.Items
     class clsItemsSQL
     {
         /// <summary>
+        /// Query to select everything from the Items Table.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetAllItems() {
+            try
+            {
+                return "SELECT * FROM Items";
+            }
+            catch (Exception ex) {
+                throw new Exception("Unable to get all items. " + ex.ToString());
+            }
+        }
+
+        /// <summary>
         /// Query to add an item to the Items Table.
         /// </summary>
         /// <param name="itemName"></param>
