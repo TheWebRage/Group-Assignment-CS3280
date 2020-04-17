@@ -44,6 +44,21 @@ namespace CS_3280_Group_Assignment.Items
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
         {
 
+            try {
+                if (String.IsNullOrWhiteSpace(tbItemName.Text) && String.IsNullOrWhiteSpace(tbItemCost.Text))
+                {
+                    lblNameError.Visibility = String.IsNullOrWhiteSpace(tbItemName.Text) ? Visibility.Visible : Visibility.Hidden;
+                    lblCostError.Visibility = String.IsNullOrWhiteSpace(tbItemCost.Text) ? Visibility.Visible : Visibility.Hidden;
+                }
+                else {
+                    itemsLogic.addItem(tbItemName.Text, double.Parse(tbItemCost.Text));
+                    itemsDataGrid.ItemsSource = null;
+                    fillDataGrid();
+                }
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Unable to add item. " + ex.ToString(), "Erro-Add Item", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         /// <summary>
